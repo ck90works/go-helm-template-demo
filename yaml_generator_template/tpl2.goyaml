@@ -1,0 +1,11 @@
+{{- range $key, $val := . }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aid_test
+  namespace: aid_test
+type: kubernetes.io/service-account-token
+data:
+  {{$key}}: {{$val}}
+---
+{{- end}}

@@ -1,0 +1,11 @@
+{{- range . }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aid_namespace_test 
+  namespace: {{ . }}
+type: kubernetes.io/service-account-token
+data:
+  token: dummy
+---
+{{- end}}
