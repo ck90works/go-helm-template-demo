@@ -59,3 +59,13 @@ Zu den Funktionen wie `get` und `default` gibt es hierzu ein vereinfachtes Beisp
 # Angenommen . ist nicht leer und hält den Wert "42", dann ist $neuer_wert = "42"
 ```
 Reminder: Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung.
+
+## Spezialfälle, die nur in Helm Templates funktionieren
+
+Die `include`-Funktion ist eine von Helm entwickelte Funktion um ein für Helm Templating relevantes Problem zu lösen.
+Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
+```yaml
+# Wir definieren zwei Templates, bei der wir im zweiten Template temporär
+# die Funktionen des ersten Templates für einen bestimmten Datensatz verwenden werden:
+
+```
