@@ -32,6 +32,10 @@ Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `
 
 Beispiel: siehe [Bindestriche in Go Template](/beispiele/Bindestriche.md)
 
+Funktionen in Templates werden innerhalb den Begrenzungen unmittelbar vor dem Datensatz, für den die Funktion gilt, aufgerufen, dabei ist zu beachten, dass die Anzahl der Argumente einer Funktion abhängig von seiner Programmierung abhängt. So ist `trim` eine gewöhnliche Funktion mit einem Argument, der führende und nachfolgende Leerzeichen eines Datensatzes entfernt.
+
+Beispiel: siehe [Funktionen in Go Template](/beispiele/Funktionen.md)
+
 Kommentare werden in Form von `{{/* Dies ist ein Kommentar. Kann auch mehrzeilig sein */}}` geschrieben.
 
 Pipelines werden mit einem Pipe-Symbol `{{ "Eingangswert" | mache_was_damit | mache_noch_was_damit | print }}` dargestellt und arbeiten von Links nach Rechts verschiedene Befehle ab wobei Links als Eingabe und Rechts als Ausgabe verwendet wird.
