@@ -103,13 +103,15 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
 ```yaml
 # Wir definieren zwei Templates, bei der wir im zweiten Template temporär
 # die Funktionen des ersten Templates für einen bestimmten Datensatz verwenden werden:
+...
 {{/*
   Im formatierer-Template werden alle Eingangswerte zuerst danach geprüft
   ob dieser einen Unterstrich im Text beinhaltet, wenn ja, wird dieser mit
   einem Bindestrich ersetzt.
   Als nächstes wird geprüft, ob der Text Großbuchstaben beinhaltet, wenn ja,
-  werden alle Großbuchstaben zu Kleinbuchstaben konviertiert. */}}
-...
+  werden alle Großbuchstaben zu Kleinbuchstaben konviertiert.
+*/}}
+
 {{ define "formatierer" }}
 {{ if contains "_" . }}
   {{ regexReplaceAll "_" . "-" }}
@@ -118,12 +120,13 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
   {{ lower . }}
 {{ end }}
 {{ end }}
-...
+
 {{/*
   namespace_konvertierer nutzt die include-Funktion für den aktuellen Datensatz, bei der
   dieser zuerst den formatierer-Template durchläuft, dabei eventuell Änderungen vornimmt
-  und anschließend in $variable speichert. */}}
-...
+  und anschließend in $variable speichert.
+*/}}
+
 {{ define "namespace_konvertierer" }}
 {{ $variable := include "formatierer" . }}
 namespace: {{ $variable }}
