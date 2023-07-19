@@ -47,7 +47,7 @@ metadata:
   namespace:    hallo-welt
   name: aid-namespace-test
 ...
-# Würde aber der Platzhalter im Namespace wie folgt mit einem `{{-` beginnen:
+# Würde aber der Platzhalter im Namespace wie folgt mit einem `-` beginnen:
 ...
 metadata:
   namespace: {{- . }}
