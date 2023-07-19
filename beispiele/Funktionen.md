@@ -4,7 +4,7 @@ Zu beachten ist, dass hier gezeigte Funktionen hauptsächlich aus der sprig v3 B
   
 -> [Der Link zur offiziellen Dokumentation aller Funktionen des sprig v3 Bibliotheks](https://masterminds.github.io/sprig/)
 
--> [Der Link zur offiziellen Dokumentation aller Funktionen eines Helm Templates](https://masterminds.github.io/sprig/](https://helm.sh/docs/chart_template_guide/function_list/)
+-> [Der Link zur offiziellen Dokumentation aller Funktionen eines Helm Templates](https://helm.sh/docs/chart_template_guide/function_list/)
 
 ```yaml
 # Eine gewöhnliche Funktion mit einem Argument ist die trim-Funktion.
