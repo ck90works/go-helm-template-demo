@@ -10,10 +10,6 @@ import (
 
 var tpl *template.Template
 
-var function_map = template.FuncMap{
-	"doppelt": doppelt,
-}
-
 type schiff struct {
 	Name         string
 	Namespace    string
@@ -36,11 +32,6 @@ type secrets struct {
 type schiff_config struct {
 	Metadaten []metadaten
 	Secrets   []secrets
-}
-
-func doppelt(s string) string {
-	out := s + s
-	return out
 }
 
 func init() {
