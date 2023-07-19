@@ -40,5 +40,6 @@ Kommentare werden in Form von `{{/* Dies ist ein Kommentar. Kann auch mehrzeilig
 
 Pipelines werden mit einem Pipe-Symbol `{{ "Eingangswert" | mache_was_damit | mache_noch_was_damit | print }}` dargestellt und arbeiten von Links nach Rechts verschiedene Befehle ab wobei Links als Eingabe und Rechts als Ausgabe verwendet wird.
 
-Einfache runde Klammern `(` und `)` dienen dazu, bestimmte Funktionen zu Gliedern und zu verschachteln. Z.B. würde `{{ print (addiere_folgende_strings "abc" "xyz") }}`
-dazu führen, dass zuerst die Texte "abc" und "xyz" zu einem "abcxyz" addiert werden und anschließend als "abcxyz" ausgegeben werden.
+Einfache runde Klammern `(` und `)` dienen dazu, bestimmte Funktionen zu Gliedern und zu verschachteln. 
+<br>So würde `{{ print (addiere_folgende_strings "abc" "xyz") }}`
+dazu führen, dass zuerst die Texte "abc" und "xyz"<br>zu einem "abcxyz" addiert werden und anschließend als "abcxyz" ausgegeben werden.
