@@ -72,16 +72,19 @@ Eine weitere Funktion, die in dem Lookup-Kontext verwendet wird ist `dict`, hier
 ...
 
 # Wir erstellen eine Map bzw. eine Dictionary aus drei Schlüssel-Wert-Paaren
+#
 # Sei zusätzlich . Repräsentant für eine Slice mit einem Element ["test-name"]
 # Dann würde im folgenden eine Map erstellt werden, der für den ersten Schlüssel
 # definiert als "name", den ersten Datensatz aus der Slice mit default prüft
 # ob index ["test-name"] 0 = "test-name" existiert, das sie in diesem Fall ja tut
 # und daher den Wert "test-name" dem Schlüssel "name" speichert.
+#
 # Anschließend wird für den Schlüssel "namespace" mithilfe default geprüft ob
 # index ["test-name"] 1 = "" existiert, das sie in diesem Fall **nicht** tut,
 # und dahier auf den Ausweichwert "default" zurückweicht und diesen dem Schlüssel
 # "namespace" als Wert zuweist, dabei werden mithilfe von `(` und `)` der Geltungsbereich
 # eingegrenzt.
+#
 {{ $neue_map := dict "name" (default "aid-test" index . 0) "namespace" (default "default" index . 1) "ein_key" "ein_value" }}
 ...
 # Die eigens neu definierte Variable $neue_map enthält jetzt eine Map bzw. Dictionary die wie folgt aussieht:
