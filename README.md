@@ -33,8 +33,7 @@ Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `
 Beispiel:
 
 ```yaml
-# Sei . ein Text mit Leerzeichen wie
-# "   hallo-welt  " und würde das Template wie folgt aussehen:
+# Sei . ein Text mit Leerzeichen wie "   hallo-welt  " und würde das Template wie folgt aussehen:
 {{- range . }}
 ...
 metadata:
@@ -48,16 +47,13 @@ metadata:
   namespace:    hallo-welt
   name: aid-namespace-test
 ...
-# Würde aber der Platzhalter im Namespace
-# wie folgt mit einem `{{-` beginnen:
+# Würde aber der Platzhalter im Namespace wie folgt mit einem `{{-` beginnen:
 ...
 metadata:
   namespace: {{- . }}
   name: aid-namespace-test
 ...
-# Wäre der Output zwar um Leerzeichen und
-# leere Zeilen gekürzt, aber nicht für die
-# Variable innerhalb der geschweiften Klammern:
+# Wäre der Output zwar um Leerzeichen und leere Zeilen gekürzt, aber nicht für die Variable innerhalb der geschweiften Klammern:
 ...
 metadata:
   namespace:   hallo-welt
