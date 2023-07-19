@@ -32,7 +32,7 @@ Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `
 
 Beispiel:
 
-```
+```yaml
 # Sei . ein Text mit Leerzeichen wie
 # "   Hallo Welt!  " und würde das Template wie folgt aussehen:
 {{- range . }}
