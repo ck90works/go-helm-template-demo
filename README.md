@@ -34,33 +34,53 @@ Beispiel:
 
 ```yaml
 # Sei . ein Text mit Leerzeichen wie
-# "   Hallo Welt!  " und würde das Template wie folgt aussehen:
+# "   hallo-welt  " und würde das Template wie folgt aussehen:
 {{- range . }}
 ...
 metadata:
   namespace: {{ . }}
+  name: aid-namespace-test
 ...
 {{- end }}
 # Würde dies folgenden Output generieren:
 ...
 metadata:
-  name: aid_namespace_test
-  namespace:    Hallo Welt!
+  namespace:    hallo-welt
+  name: aid-namespace-test
 ...
 # Würde aber der Platzhalter im Namespace
-# wie folgt aussehen:
+# wie folgt mit einem `{{-` beginnen:
 ...
 metadata:
-  name: aid_namespace_test
   namespace: {{- . }}
+  name: aid-namespace-test
 ...
 # Wäre der Output zwar um Leerzeichen und
 # leere Zeilen gekürzt, aber nicht für die
 # Variable innerhalb der geschweiften Klammern:
 ...
 metadata:
-  name: aid_namespace_test
-  namespace:   Hallo Welt!
+  namespace:   hallo-welt
+  name: aid-namespace-test
+...
+# Analog würde bedeuten, dass für:
+...
+  namespace: {{ . -}}
+  name: aid-namespace-test
+...
+# Der Output wie folgt aussehen würde:
+...
+  namespace:    hallo-welt  name: aid-namespace-test
+...
+# Die Lösung für den gewünschten Output wäre:
+...
+  namespace: {{ trim . }}
+  name: aid-namespace-test
+...
+# Bei der die trim-Funktion, die Variable um führende und nachfolgender Leerzeichen und leere Zeilen entfernt:
+...
+  namespace: hallo-welt
+  name: aid-namespace-test
 ...
 ```
 
