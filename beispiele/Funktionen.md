@@ -34,3 +34,28 @@ Zu beachten ist, dass hier gezeigte Funktionen hauptsächlich aus der sprig v3 B
     hallo-welt
 ...
 ```
+
+Zu den Funktionen wie `get` und `default` gibt es hierzu ein vereinfachtes Beispiel:
+```yaml
+# Sowohl get als auch default sind Funktionen, die zwei Argumente benötigen, also
+# get .X .Y bzw. default .X .Y
+#
+# Im folgenden wird eine Variable namens $datensatz neu definiert und dieser nimmt
+# den Wert aus einem Schlüssel von einer Map an:
+{{ $datensatz := get aus_einer_map "der_schluessel" }}
+# Würde die Map namens aus_einer_map wie folgt aussehen
+{
+  "der_schluessel": "ein_wert"
+  "noch_ein_schluessel": "noch_ein_wert"
+}
+# Dann würde die Variable $datensatz, denn Wert "ein_wert" annehmen
+
+# Die default Funktion definiert eine Ausweichwert, falls der angesprochene Datensatz
+# leer ist bzw. nicht existiert.
+# Im folgenden wird der bereits oben definierte $datensatz mit dem Wert "ein_wert" als
+# Ausweichwert definiert, sollte der aktuelle Datensatz . leer sein bzw. nicht existieren:
+{{ $neuer_wert := default $datensatz . }}
+# Angenommen . ist leer, dann ist $neuer_wert = "ein_wert"
+# Angenommen . ist nicht leer und hält den Wert "42", dann ist $neuer_wert = "42"
+```
+
