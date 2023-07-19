@@ -98,11 +98,16 @@ Eine weitere Funktion, die in dem Lookup-Kontext verwendet wird ist `dict`, hier
 
 ## Spezialfälle, die nur in Helm Templates funktionieren
 
-Die `include`-Funktion ist eine von Helm entwickelte Funktion um ein für Helm Templating relevantes Problem zu lösen.
+Die `include`-Funktion ist eine von Helm entwickelte Funktion um ein für Helm Templating relevantes Problem zu lösen.  
+
+Im Grunde funktioniert `include` genauso wie die `template`-Funktion aus der Standard-Bibliothek von Go,
+mit dem einzigen Unterschied, dass `include` im Gegensatz zu `template` das Pipelining ermöglicht.  
+
 Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
 ```yaml
-# Wir definieren zwei Templates, bei der wir im zweiten Template temporär
-# die Funktionen des ersten Templates für einen bestimmten Datensatz verwenden werden:
+# Wir definieren zuerst ein Template, bei der wir die Formatierungs-Funktion implementieren
+# anschließend werden wir diesen weiter unten einmal mithilfe include und einmal mit template
+# verwenden. 
 ...
 {{/*
   Im formatierer-Template werden alle Eingangswerte zuerst danach geprüft
@@ -120,30 +125,26 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
   {{ lower . }}
 {{ end }}
 {{ end }}
-
-{{/*
-  namespace_konvertierer nutzt die include-Funktion für den aktuellen Datensatz, bei der
-  dieser zuerst den formatierer-Template durchläuft, dabei eventuell Änderungen vornimmt
-  und anschließend in $variable speichert.
-*/}}
-
-{{ define "namespace_konvertierer" }}
-{{ $variable := include "formatierer" . }}
-namespace: {{ $variable }}
-{{ end }}
 ...
-# Wir können jetzt diese definierten Templates in einem weiteren Go Template - der mit der
-# selben Go-Anwendung interagiert - nutzen und müssen diese Definitionen nicht ständig neu
-# runterschreiben. Die Nutzung eines anderen Templates in einem Template wird mit der template-Funktion ermöglicht:
+# Wir können jetzt diesen definierten Template in einem weiteren Go Template - der mit der
+# selben Go-Anwendung interagiert - nutzen und müssen diese Definition nicht ständig neu
+# runterschreiben. Im folgenden Beispiel werden wir einmal den namespace: Anteil klassisch
+# mit template verwenden, und einmal mit der include Funktion, die das Pipelining | ermöglicht:
 ...
 metadata:
   name: aid-test
-  {{ template "namespace_konvertierer" . }}
+  namespace: {{ template "formatierer" . }}
+  {{ $variable := include "formatierer" . | cat "namespace: " . }}
 ...
 # Sei . Repräsentant eines Textes "Aid_Namespace", würde der obige Template folgendes generieren:
 ...
 metadata:
   name: aid-test
-  namespace: aid-namespace
+  namespace: aid-namespace # template-Funktion
+  namespace: aid-namespace # include | cat Funktion
 ...
+# Wir sehen hier, dass mithilfe include und cat zwei Operationen in-line möglich waren
+# Damit hätten wir theoretisch in den cat-Befehl eine Variable setzen können, der z.B.
+# "annotations: " heißen würde. Beim template-Befehl ist das Pipelining "|" nicht möglich
+# und daher waren wir gezwungen, "namespace: " in das Template "hardzucoden"
 ```

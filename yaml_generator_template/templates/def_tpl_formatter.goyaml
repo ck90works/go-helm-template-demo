@@ -1,0 +1,8 @@
+{{- define "formatter" -}}
+{{- if contains "_" . -}}
+  {{- regexReplaceAll "_" . "-" -}}
+{{- end -}}
+{{- if regexMatch "^.*[A-Z]+" . -}}
+  {{- lower . -}}
+{{- end }}
+{{- end }}

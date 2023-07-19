@@ -25,8 +25,9 @@ type metadaten struct {
 }
 
 type secrets struct {
-	Type string
-	Data string
+	Type      string
+	DataKey   string
+	DataValue string
 }
 
 type schiff_config struct {
@@ -63,7 +64,7 @@ func range_over_slice() {
 		"namespace4",
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl1.goyaml", namespaces)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice.goyaml", namespaces)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -76,7 +77,7 @@ func range_over_map() {
 		"vault_seal_key": "ganz geheim",
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl2.goyaml", eine_map)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_map.goyaml", eine_map)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -91,7 +92,7 @@ func range_over_struct() {
 		ImageVersion: "1.14.2",
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl3.goyaml", eine_struct)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_struct.goyaml", eine_struct)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -111,13 +112,15 @@ func range_over_slice_struct() {
 	}
 
 	aid_secrets := secrets{
-		Type: "Sensitive",
-		Data: "certs: ",
+		Type:      "Sensitive",
+		DataKey:   "certs: ",
+		DataValue: "viel base64",
 	}
 
 	zabbix_secrets := secrets{
-		Type: "Opaque",
-		Data: "vaults: ",
+		Type:      "Opaque",
+		DataKey:   "vaults: ",
+		DataValue: "text",
 	}
 
 	schiff_konfigurationen := schiff_config{
@@ -125,7 +128,7 @@ func range_over_slice_struct() {
 		[]secrets{aid_secrets, zabbix_secrets},
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl4.goyaml", schiff_konfigurationen)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice_struct.goyaml", schiff_konfigurationen)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -140,7 +143,7 @@ func execute_struct_from_tpl() {
 		ImageVersion: "1.14.2",
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl_execute_struct_from_tpl.goyaml", eine_struct)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_struct_from_tpl.goyaml", eine_struct)
 	if err != nil {
 		log.Fatalln(err)
 	}

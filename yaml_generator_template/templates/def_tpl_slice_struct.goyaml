@@ -1,0 +1,15 @@
+{{ define "k8s_secret" }}
+{{- range $metadaten := .Metadaten }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $metadaten.Name}}
+  namespace: {{ $metadaten.Namespace }}
+  annotations: {{ $metadaten.Annotations }}
+type: kubernetes.io/service-account-token
+type: Opaque
+data:
+  config.cfg: |
+    Mehrzeiliger Text an Daten
+{{- end }}
+{{end }}

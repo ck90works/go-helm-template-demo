@@ -1,0 +1,8 @@
+{{- define "metadata" -}}
+{{- range $metadaten := . -}}
+metadata:
+  name: {{ $metadaten.Name }}
+  namespace: {{ $metadaten.Namespace }}
+  annotations: {{ $metadaten.Annotations }}
+{{- end }}
+{{- end }}

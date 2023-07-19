@@ -1,31 +1,11 @@
-{{- define "k8s_pod" -}}
-{{- $name := .Name -}}
-{{- $namespace := .Namespace -}}
-{{- $image := .Image -}}
-{{- $image_name := .ImageName -}}
-{{- $image_version := .ImageVersion -}}
-apiVersion: v1
-kind: Pod
-metadata:
-  name: {{ $name }}
-  namespace: {{ $namespace }}
-spec:
-  containers:
-  - name: {{ $image_name }}
-    image: {{ $image -}}:   {{- $image_version }}
-    ports:
-    - containerPort: 80
-{{- end }}
-{{- define "k8s_namespace" }}
 {{- $name := .Name -}}
 {{- $namespace := .Namespace -}}
 apiVersion: v1
-kind: Namespace
+kind: Secret
 metadata:
   name: {{ $name }}
-  namespace: {{ $namespace }}
-{{- end }}
-  
-  
-
-    
+  namespace: {{ template "formatter" $namespace }}
+type: kubernetes.io/service-account-token
+data:
+  config.cfg: |
+    ein mehrzeiliger Text
