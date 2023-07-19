@@ -22,7 +22,7 @@ Siehe Code-Beispiel html_generator
 
 Die zwei geschweiften Klammern `{{ }}` sind Begrenzungszeichen für Go Template Funktionen und Variablen, wobei jede `{{` mit `}}` enden muss.
 
-Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung. Wenn man über eine **Slice** iteriert, wird die Ausgabe für jeden Wert in der Schleife separat eingesetzt und das Template für jeden einzelnen Wert nacheinander ausgegeben.
+Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung. Wenn man über eine **Slice** mithilfe der `range`-Funktion iteriert, wird die Ausgabe für jeden Wert in der Schleife separat eingesetzt und das Template für jeden einzelnen Wert nacheinander ausgegeben.
 
 Ein Bindestrich zu Beginn `{{- }}` entfernt alle Leerzeichen und leere Zeilen unmittelbar **vor** einem `{{ }}` Block, bzw. wenn ein Block mit einem Bindestrich endet `{{ -}}`, dann werden alle Leerzeichen und leere Zeilen unmittelbar **nach** dem `{{ }}` Block entfernt.
 
