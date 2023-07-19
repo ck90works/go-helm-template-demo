@@ -2,9 +2,11 @@
 
 Zu beachten ist, dass hier gezeigte Funktionen hauptsächlich aus der sprig v3 Bibliothek entstammen, welche für Helm Templates bereits integriert ist und voll funktionsfähig ist.
   
--> [Der Link zur offiziellen Dokumentation aller Funktionen des sprig v3 Bibliotheks](https://masterminds.github.io/sprig/)
+-> [sprig v3 Funktionen: Der Link zur offiziellen Dokumentation](https://masterminds.github.io/sprig/)
 
--> [Der Link zur offiziellen Dokumentation aller Funktionen eines Helm Templates](https://helm.sh/docs/chart_template_guide/function_list/)
+Helm erweitert die sprig-Bibliothek um einige weitere Funktionen, die speziell für Helm-Verwendungszwecke entwickelt wurden.
+  
+-> [Helm Template Funktionen: Der Link zur offiziellen Dokumentation](https://helm.sh/docs/chart_template_guide/function_list/)
 
 ```yaml
 # Eine gewöhnliche Funktion mit einem Argument ist die trim-Funktion.
@@ -61,6 +63,21 @@ Zu den Funktionen wie `get` und `default` gibt es hierzu ein vereinfachtes Beisp
 # Angenommen . ist nicht leer und hält den Wert "42", dann ist $neuer_wert = "42"
 ```
 Reminder: Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung.
+
+Eine weitere Funktion, die in dem Lookup-Kontext verwendet wird ist `dict`, hierzu im folgenden ein Beispiel:
+```yaml
+# Wir erstellen eine Map bzw. eine Dictionary aus drei Schlüssel-Wert-Paaren
+{{ $neue_map := dict "schluessel1" "wert1" "schluessel2" "wert2" "ein_key" "ein_value" }}
+...
+# Die eigens neu definierte Variable $neue_map enthält jetzt eine Map bzw. Dictionary die wie folgt aussieht:
+{
+  "schluessel1":   "wert1",
+  "schluessel2":   "wert2",
+  "ein_key":       "ein_value",
+}
+...
+# Diese neue Map kann als Eingabe für weitere 
+```
 
 ## Spezialfälle, die nur in Helm Templates funktionieren
 
