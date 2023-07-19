@@ -42,4 +42,4 @@ Pipelines werden mit einem Pipe-Symbol `{{ "Eingangswert" | mache_was_damit | ma
 
 Einfache runde Klammern `(` und `)` dienen dazu, bestimmte Funktionen zu Gliedern und zu verschachteln. 
 <br>So würde `{{ print (addiere_folgende_strings "abc" "xyz") }}`
-dazu führen, dass zuerst die Texte "abc" und "xyz"<br>zu einem "abcxyz" addiert werden und anschließend als "abcxyz" ausgegeben werden.
+dazu führen, dass zuerst die Texte "abc" und "xyz" zu einem "abcxyz" addiert werden und anschließend als "abcxyz" ausgegeben werden.
