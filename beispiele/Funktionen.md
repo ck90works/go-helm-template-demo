@@ -109,6 +109,7 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
   einem Bindestrich ersetzt.
   Als nächstes wird geprüft, ob der Text Großbuchstaben beinhaltet, wenn ja,
   werden alle Großbuchstaben zu Kleinbuchstaben konviertiert. */}}
+
 {{ define "formatierer" }}
 {{ if contains "_" . }}
   {{ regexReplaceAll "_" . "-" }}
@@ -117,10 +118,12 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
   {{ lower . }}
 {{ end }}
 {{ end }}
+
 {{/*
   namespace_konvertierer nutzt die include-Funktion für den aktuellen Datensatz, bei der
   dieser zuerst den formatierer-Template durchläuft, dabei eventuell Änderungen vornimmt
   und anschließend in $variable speichert. */}}
+
 {{ define "namespace_konvertierer" }}
 {{ $variable := include "formatierer" . }}
 namespace: {{ $variable }}
