@@ -66,17 +66,31 @@ Reminder: Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der A
 
 Eine weitere Funktion, die in dem Lookup-Kontext verwendet wird ist `dict`, hierzu im folgenden ein Beispiel:
 ```yaml
+# Eine Map kann aus beliebigen Datensätzen innerhalb eines Templates erstellt werden,
+# so eine Map wäre syntaktisch wie folgt aufgebaut:
+{{ $map := dict "1_key" "1_value" "2_key" "2_value" ... "n_key" "n_value" }}
+...
+
 # Wir erstellen eine Map bzw. eine Dictionary aus drei Schlüssel-Wert-Paaren
-{{ $neue_map := dict "schluessel1" "wert1" "schluessel2" "wert2" "ein_key" "ein_value" }}
+# Sei zusätzlich . Repräsentant für eine Slice mit einem Element ["test-name"]
+# Dann würde im folgenden eine Map erstellt werden, der für den ersten Schlüssel
+# definiert als "name", den ersten Datensatz aus der Slice mit default prüft
+# ob index ["test-name"] 0 = "test-name" existiert, das sie in diesem Fall ja tut
+# und daher den Wert "test-name" dem Schlüssel "name" speichert.
+# Anschließend wird für den Schlüssel "namespace" mithilfe default geprüft ob
+# index ["test-name"] 1 = "" existiert, das sie in diesem Fall **nicht** tut,
+# und dahier auf den Ausweichwert "default" zurückweicht und diesen dem Schlüssel
+# "namespace" als Wert zuweist, dabei werden mithilfe von `(` und `)` der Geltungsbereich
+# eingegrenzt.
+{{ $neue_map := dict "name" (default "aid-test" index . 0) "namespace" (default "default" index . 1) "ein_key" "ein_value" }}
 ...
 # Die eigens neu definierte Variable $neue_map enthält jetzt eine Map bzw. Dictionary die wie folgt aussieht:
 {
-  "schluessel1":   "wert1",
-  "schluessel2":   "wert2",
+  "name":          "test-name",
+  "namespace":     "default",
   "ein_key":       "ein_value",
 }
 ...
-# Diese neue Map kann als Eingabe für weitere 
 ```
 
 ## Spezialfälle, die nur in Helm Templates funktionieren
