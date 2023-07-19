@@ -1,4 +1,4 @@
-# Beispiele zu Bindestrichen `{{- ...`| `... -}}` in Go Templates
+## Beispiele zu Bindestrichen `{{- ...` bzw. `... -}}` in Go Templates
 ```yaml
 # Sei . ein Text mit Leerzeichen wie "   hallo-welt  " und würde das Template wie folgt aussehen:
 {{- range . }}
