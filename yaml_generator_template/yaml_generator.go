@@ -130,7 +130,6 @@ func range_over_slice_struct() {
 	}
 
 	schiff_konfigurationen := schiff_config{
-		root: ,
 		[]metadaten{aid, zabbix},
 		[]secrets{aid_secrets, zabbix_secrets},
 	}
