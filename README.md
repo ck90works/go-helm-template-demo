@@ -30,55 +30,7 @@ Wichtig: Leerzeichen und neue Zeilen der eingesetzten Daten innerhalb des `{{ }}
 
 Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `{{- . -}}`, damit werden alle Leerzeichen und leere Zeilen unmittelbar vor und unmittelbar nach den geschweiften Klammern entfernt.
 
-Beispiel:
-
-```yaml
-# Sei . ein Text mit Leerzeichen wie "   hallo-welt  " und würde das Template wie folgt aussehen:
-{{- range . }}
-...
-metadata:
-  namespace: {{ . }}
-  name: aid-namespace-test
-...
-{{- end }}
-# Würde dies folgenden Output generieren:
-...
-metadata:
-  namespace:    hallo-welt
-  name: aid-namespace-test
-...
-# Würde aber der Platzhalter im Namespace wie folgt mit einem `-` beginnen:
-...
-metadata:
-  namespace: {{- . }}
-  name: aid-namespace-test
-...
-# Wäre der Output zwar um Leerzeichen und leere Zeilen gekürzt, aber nicht für die Variable innerhalb der geschweiften Klammern:
-...
-metadata:
-  namespace:   hallo-welt
-  name: aid-namespace-test
-...
-# Analog würde bedeuten, dass für:
-...
-  namespace: {{ . -}}
-  name: aid-namespace-test
-...
-# Der Output wie folgt aussehen würde:
-...
-  namespace:    hallo-welt  name: aid-namespace-test
-...
-# Die Lösung für den gewünschten Output wäre:
-...
-  namespace: {{ trim . }}
-  name: aid-namespace-test
-...
-# Bei der die trim-Funktion, die Variable um führende und nachfolgender Leerzeichen und leere Zeilen entfernt:
-...
-  namespace: hallo-welt
-  name: aid-namespace-test
-...
-```
+Beispiel: siehe [Bindestriche in Go Template](/beispiele/Bindestriche.md)
 
 Kommentare werden in Form von `{{/* Dies ist ein Kommentar. Kann auch mehrzeilig sein */}}` geschrieben.
 
