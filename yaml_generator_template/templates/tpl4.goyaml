@@ -1,0 +1,15 @@
+{{- range $metadaten := .Metadaten -}}
+{{- /* range $secrets := .Secrets */}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $metadaten.Name }}
+  namespace: {{ $metadaten.Namespace }}
+  annotations: {{ $metadaten.Annotations }}
+type: kubernetes.io/service-account-token
+type: {{/* $secrets.Type */}} Opaque
+data:
+  {{/* $secrets.Data */}} config.cfg: 
+---
+{{- end }}
+{{- /* end */}}

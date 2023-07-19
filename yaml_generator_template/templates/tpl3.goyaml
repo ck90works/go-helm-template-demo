@@ -1,5 +1,5 @@
-{{ $name := .Name }}
-{{ $namespace := .Namespace }}
+{{- $name := .Name -}}
+{{- $namespace := .Namespace -}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -9,4 +9,3 @@ type: kubernetes.io/service-account-token
 data:
   config.cfg: |
     ein mehrzeiliger Text
-    

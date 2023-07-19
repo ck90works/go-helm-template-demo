@@ -4,16 +4,22 @@ import (
 	"log"
 	"os"
 	"text/template"
+
+	"github.com/Masterminds/sprig/v3"
 )
 
-var tpl1 *template.Template
-var tpl2 *template.Template
-var tpl3 *template.Template
-var tpl4 *template.Template
+var tpl *template.Template
+
+var function_map = template.FuncMap{
+	"doppelt": doppelt,
+}
 
 type schiff struct {
-	Name      string
-	Namespace string
+	Name         string
+	Namespace    string
+	Image        string
+	ImageName    string
+	ImageVersion string
 }
 
 type metadaten struct {
@@ -32,11 +38,13 @@ type schiff_config struct {
 	Secrets   []secrets
 }
 
+func doppelt(s string) string {
+	out := s + s
+	return out
+}
+
 func init() {
-	tpl1 = template.Must(template.ParseFiles("tpl1.goyaml"))
-	tpl2 = template.Must(template.ParseFiles("tpl2.goyaml"))
-	tpl3 = template.Must(template.ParseFiles("tpl3.goyaml"))
-	tpl4 = template.Must(template.ParseFiles("tpl4.goyaml"))
+	tpl = template.Must(template.New("").Funcs(sprig.FuncMap()).ParseGlob("templates/*"))
 }
 
 func main() {
@@ -49,6 +57,8 @@ func main() {
 			range_over_struct()
 		} else if os.Args[1] == "slice-struct" {
 			range_over_slice_struct()
+		} else if os.Args[1] == "struct-from-tpl" {
+			execute_struct_from_tpl()
 		}
 	}
 
@@ -56,13 +66,13 @@ func main() {
 
 func range_over_slice() {
 	namespaces := []string{
-		"namespace1",
+		"   namespace1",
 		"namespace2",
 		"namespace3",
 		"namespace4",
 	}
 
-	err := tpl1.ExecuteTemplate(os.Stdout, "tpl1.goyaml", namespaces)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl1.goyaml", namespaces)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -75,7 +85,7 @@ func range_over_map() {
 		"vault_seal_key": "ganz geheim",
 	}
 
-	err := tpl2.ExecuteTemplate(os.Stdout, "tpl2.goyaml", eine_map)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl2.goyaml", eine_map)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -83,11 +93,14 @@ func range_over_map() {
 
 func range_over_struct() {
 	eine_struct := schiff{
-		Name:      "aid_test_1",
-		Namespace: "aid_test_1_namespace",
+		Name:         "aid_test_1",
+		Namespace:    "aid_test_1_namespace",
+		Image:        "nginx",
+		ImageName:    "aid_nginx",
+		ImageVersion: "1.14.2",
 	}
 
-	err := tpl3.ExecuteTemplate(os.Stdout, "tpl3.goyaml", eine_struct)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl3.goyaml", eine_struct)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -116,15 +129,28 @@ func range_over_slice_struct() {
 		Data: "vaults: ",
 	}
 
-	schiff_konfigurationen := struct {
-		Metadaten []metadaten
-		Secrets   []secrets
-	}{
+	schiff_konfigurationen := schiff_config{
+		root: ,
 		[]metadaten{aid, zabbix},
 		[]secrets{aid_secrets, zabbix_secrets},
 	}
 
-	err := tpl4.ExecuteTemplate(os.Stdout, "tpl4.goyaml", schiff_konfigurationen)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl4.goyaml", schiff_konfigurationen)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func execute_struct_from_tpl() {
+	eine_struct := schiff{
+		Name:         "aid_test_1",
+		Namespace:    "aid_test_1_namespace",
+		Image:        "nginx",
+		ImageName:    "aid_nginx",
+		ImageVersion: "1.14.2",
+	}
+
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_execute_struct_from_tpl.goyaml", eine_struct)
 	if err != nil {
 		log.Fatalln(err)
 	}

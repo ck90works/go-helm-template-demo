@@ -1,0 +1,4 @@
+{{ template "k8s_pod" }}
+---
+{{ template "k8s_secrets" }}
+---

@@ -1,0 +1,5 @@
+{{- template "k8s_pod" . }}
+{{ $cluster_variable}}
+
+---
+{{- template "k8s_secret" . }}

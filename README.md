@@ -20,15 +20,49 @@ Siehe Code-Beispiel html_generator
 
 ## Infos
 
-Die zwei geschweiften Klammern `{{ }}` bzw. alternativ zwei eckige Klammern `[[ ]]` sind Begrenzungszeichen für Go Template Funktionen und Variablen, wobei jede `{{` mit `}}` bzw. `[[` mit `]]` enden muss.
+Die zwei geschweiften Klammern `{{ }}` sind Begrenzungszeichen für Go Template Funktionen und Variablen, wobei jede `{{` mit `}}` enden muss.
 
-_(Aus Gründen der Vereinfachung verwende ich standardmäßig die Notation mit den `{{ }}` für diesen Tutorial)_
+Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung. Wenn man über eine **Slice** iteriert, wird die Ausgabe für jeden Wert in der Schleife separat eingesetzt und das Template für jeden einzelnen Wert nacheinander ausgegeben.
 
-Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung. Wenn man über eine **Slice** iteriert, wird die Ausgabe für jeden Wert in der Schleife separat eingesetzt.
+Ein Bindestrich zu Beginn `{{- }}` entfernt alle Leerzeichen und leere Zeilen unmittelbar **vor** einem `{{ }}` Block, bzw. wenn ein Block mit einem Bindestrich endet `{{ -}}`, dann werden alle Leerzeichen und leere Zeilen unmittelbar **nach** dem `{{ }}` Block entfernt.
 
-Ein Bindestrich zu Beginn in `{{- }}` entfernt alle nachgestellten Leerzeichen für den vorangehenden Text und wenn ein Template-Befehl mit einem Bindestrich endet `{{ -}}`, dann werden alle führenden Lehrzeichen aus dem unmittelbar folgenden Text entfernt.
+Wichtig: Leerzeichen und neue Zeilen der eingesetzten Daten innerhalb des `{{ }}` Blocks bleiben davon unberührt und werden weiterhin so übernommen wie sie eingehen.
 
-Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `{{- . -}}`, in diesem Fall werden alle nachgestellten Leerzeichen des vorangehenden Textes als auch alle führenden Lehrzeichen aus dem unmittelbar folgenden Text entfernt.
+Es ist auch möglich ein Befehl mit einem Bindestrich zu beginnen und zu enden `{{- . -}}`, damit werden alle Leerzeichen und leere Zeilen unmittelbar vor und unmittelbar nach den geschweiften Klammern entfernt.
+
+Beispiel:
+
+```
+# Sei . ein Text mit Leerzeichen wie
+# "   Hallo Welt!  " und würde das Template wie folgt aussehen:
+{{- range . }}
+...
+metadata:
+  namespace: {{ . }}
+...
+{{- end }}
+# Würde dies folgenden Output generieren:
+...
+metadata:
+  name: aid_namespace_test
+  namespace:    Hallo Welt!
+...
+# Würde aber der Platzhalter im Namespace
+# wie folgt aussehen:
+...
+metadata:
+  name: aid_namespace_test
+  namespace: {{- . }}
+...
+# Wäre der Output zwar um Leerzeichen und
+# leere Zeilen gekürzt, aber nicht für die
+# Variable innerhalb der geschweiften Klammern:
+...
+metadata:
+  name: aid_namespace_test
+  namespace:   Hallo Welt!
+...
+```
 
 Kommentare werden in Form von `{{/* Dies ist ein Kommentar. Kann auch mehrzeilig sein */}}` geschrieben.
 
