@@ -53,7 +53,7 @@ Zu den Funktionen wie `get` und `default` gibt es hierzu ein vereinfachtes Beisp
   "noch_ein_schluessel": "noch_ein_wert"
 }
 # Dann würde die Variable $datensatz, denn Wert "ein_wert" annehmen
-
+#
 # Die default Funktion definiert eine Ausweichwert, falls der angesprochene Datensatz
 # leer ist bzw. nicht existiert.
 # Im folgenden wird der bereits oben definierte $datensatz mit dem Wert "ein_wert" als
