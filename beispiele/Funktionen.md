@@ -58,4 +58,4 @@ Zu den Funktionen wie `get` und `default` gibt es hierzu ein vereinfachtes Beisp
 # Angenommen . ist leer, dann ist $neuer_wert = "ein_wert"
 # Angenommen . ist nicht leer und hält den Wert "42", dann ist $neuer_wert = "42"
 ```
-
+Reminder: Der Punkt in `{{ . }}` verweist auf den momentanen Wert während der Ausführung.
