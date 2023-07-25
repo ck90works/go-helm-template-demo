@@ -1,3 +1,7 @@
-{{- template "k8s_pod" . }}
+{{- $metadaten := .Metadaten -}}
+{{- $secrets := .Secrets -}}
+{{- range $i := until 2 }}
+{{- $elem := dict "Name" (index $metadaten $i).Name "Namespace" (index $metadaten $i).Namespace "Annotations" (index $metadaten $i).Annotations "Type" (index $secrets $i).Type "DataKey" (index $secrets $i).DataKey "DataValue" (index $secrets $i).DataValue -}}
+{{ template "k8s_secret" $elem }}
 ---
-{{- template "k8s_secret" . }}
+{{- end }}

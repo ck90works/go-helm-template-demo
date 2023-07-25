@@ -1,9 +1,5 @@
-{{- range $metadaten, $secrets := . -}}
-apiVersion: v1
-kind: Secret
-{{ template "metadata" $metadaten }}
-type: kubernetes.io/service-account-token
-{{ template "secret" $secrets }}
+{{- range $element := . }}
+{{ template "k8s_pod" $element }}
 ---
 {{- end }}
 

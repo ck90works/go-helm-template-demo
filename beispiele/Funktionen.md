@@ -85,7 +85,7 @@ Eine weitere Funktion, die in dem Lookup-Kontext verwendet wird ist `dict`, hier
 # "namespace" als Wert zuweist, dabei werden mithilfe von `(` und `)` der Geltungsbereich
 # eingegrenzt.
 #
-{{ $neue_map := dict "name" (default "aid-test" index . 0) "namespace" (default "default" index . 1) "ein_key" "ein_value" }}
+{{ $neue_map := dict "name" (default "test-name" index . 0) "namespace" (default "default" index . 1) "ein_key" "ein_value" }}
 ...
 # Die eigens neu definierte Variable $neue_map enthält jetzt eine Map bzw. Dictionary die wie folgt aussieht:
 {
@@ -132,16 +132,16 @@ Im folgenden ein Beispiel zu einer solchen `include`-Verwendung:
 # mit template verwenden, und einmal mit der include Funktion, die das Pipelining | ermöglicht:
 ...
 metadata:
-  name: aid-test
+  name: test
   namespace: {{ template "formatierer" . }}
   {{ $variable := include "formatierer" . | cat "namespace: " . }}
 ...
-# Sei . Repräsentant eines Textes "Aid_Namespace", würde der obige Template folgendes generieren:
+# Sei . Repräsentant eines Textes "Hello_Namespace", würde der obige Template folgendes generieren:
 ...
 metadata:
-  name: aid-test
-  namespace: aid-namespace # template-Funktion
-  namespace: aid-namespace # include | cat Funktion
+  name: test
+  namespace: hello-namespace # template-Funktion
+  namespace: hello-namespace # include | cat Funktion
 ...
 # Wir sehen hier, dass mithilfe include und cat zwei Operationen in-line möglich waren
 # Damit hätten wir theoretisch in den cat-Befehl eine Variable setzen können, der z.B.

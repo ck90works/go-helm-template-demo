@@ -1,11 +1,3 @@
-{{- $name := .Name -}}
-{{- $namespace := .Namespace -}}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ $name }}
-  namespace: {{ template "formatter" $namespace }}
-type: kubernetes.io/service-account-token
-data:
-  config.cfg: |
-    ein mehrzeiliger Text
+{{ template "k8s_namespace" . }}
+---
+{{ template "k8s_pod" . }}

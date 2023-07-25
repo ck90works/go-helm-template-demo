@@ -1,8 +1,13 @@
 {{- define "formatter" -}}
-{{- if contains "_" . -}}
-  {{- regexReplaceAll "_" . "-" -}}
+{{- $x := . -}}
+{{- if contains " " $x -}}
+  {{- $x = regexReplaceAll " " $x "" -}}
 {{- end -}}
-{{- if regexMatch "^.*[A-Z]+" . -}}
-  {{- lower . -}}
-{{- end }}
-{{- end }}
+{{- if contains "_" $x -}}
+  {{- $x = regexReplaceAll "_" $x "-" -}}
+{{- end -}}
+{{- if regexMatch "^.*[A-Z].*" $x -}}
+  {{- $x = lower $x -}}
+{{- end -}}
+{{- print $x -}}
+{{- end -}}

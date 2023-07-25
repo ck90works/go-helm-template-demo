@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"text/template"
@@ -10,7 +11,7 @@ import (
 
 var tpl *template.Template
 
-type schiff struct {
+type pod struct {
 	Name         string
 	Namespace    string
 	Image        string
@@ -30,16 +31,44 @@ type secrets struct {
 	DataValue string
 }
 
-type schiff_config struct {
-	Metadaten []metadaten
-	Secrets   []secrets
-}
-
 func init() {
 	tpl = template.Must(template.New("").Funcs(sprig.FuncMap()).ParseGlob("templates/*"))
 }
 
 func main() {
+	help := `
+	Info:
+
+		Diese Go-Anwendung demonstriert die Go Template Anwendung
+		mithilfe von fünf gängigen (teils komplexen) Datenstrukturen, 
+		die in Helm Charts verwendet werden.
+
+		Dieses Tool ist so aufgebaut, dass man dies auch als Sandbox
+		verwenden kann.
+
+
+	Kommandos:
+
+		Für die Ausführung dieser Anwendung muss ein Argument mitgeteilt werden,
+		folgende fünf Argumente sind valide:
+
+			slice
+			map
+			struct
+			slice-struct
+			struct-of-structs
+
+
+		Beispielhaft würde ein Aufruf dieser Anwendung in dev so aussehen:
+
+		> go run yaml_generator.go slice-struct
+
+		
+		Oder, sollte die Anwendung kompiliert sein, würde sie so aussehen:
+
+		> yaml_generator slice-struct 
+	`
+
 	if len(os.Args) > 1 {
 		if os.Args[1] == "slice" {
 			range_over_slice()
@@ -49,32 +78,43 @@ func main() {
 			range_over_struct()
 		} else if os.Args[1] == "slice-struct" {
 			range_over_slice_struct()
-		} else if os.Args[1] == "struct-from-tpl" {
+		} else if os.Args[1] == "struct-of-structs" {
 			execute_struct_from_tpl()
+		} else {
+			fmt.Println(help)
 		}
+	} else {
+		fmt.Println(help)
 	}
-
 }
 
 func range_over_slice() {
-	namespaces := []string{
-		"   namespace1",
-		"namespace2",
-		"namespace3",
-		"namespace4",
+	names := []string{
+		"   secret-sa-sample",
+		"secret_Sa    ",
+		" another _secret-sa",
+		"ordentlicher-sa-sample",
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice.goyaml", namespaces)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice.goyaml", names)
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
 func range_over_map() {
+	multiline_string := `|
+	TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc
+	2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZS
+	BtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWN
+	jdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1
+	YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwc3VtIGRvbG9yIHNpd
+	CBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIG`
+
 	eine_map := map[string]string{
-		"certificate":    "irgenein base64 wert",
-		"user":           "password",
-		"vault_seal_key": "ganz geheim",
+		"random.cfg": multiline_string,
+		"user":       "password",
+		"vault_seal": "ganz geheim",
 	}
 
 	err := tpl.ExecuteTemplate(os.Stdout, "tpl_map.goyaml", eine_map)
@@ -84,11 +124,11 @@ func range_over_map() {
 }
 
 func range_over_struct() {
-	eine_struct := schiff{
-		Name:         "aid_test_1",
-		Namespace:    "aid_test_1_namespace",
+	eine_struct := pod{
+		Name:         "test-app",
+		Namespace:    "production",
 		Image:        "nginx",
-		ImageName:    "aid_nginx",
+		ImageName:    "go_nginx",
 		ImageVersion: "1.14.2",
 	}
 
@@ -99,51 +139,68 @@ func range_over_struct() {
 }
 
 func range_over_slice_struct() {
-	aid := metadaten{
-		Name:        "aid_testname",
-		Namespace:   "aid_test_namespace",
-		Annotations: "aid_test_annotation",
+	eine_slice_aus_structs := []pod{
+		{
+			Name:         "test-new-feature-app",
+			Namespace:    "dev",
+			Image:        "nginx",
+			ImageName:    "go_nginx",
+			ImageVersion: "1.14.2",
+		},
+		{
+			Name:         "test-staging-app",
+			Namespace:    "staging",
+			Image:        "nginx",
+			ImageName:    "go_nginx",
+			ImageVersion: "1.14.2",
+		},
+		{
+			Name:         "test-app",
+			Namespace:    "production",
+			Image:        "nginx",
+			ImageName:    "go_nginx",
+			ImageVersion: "1.14.2",
+		},
 	}
 
-	zabbix := metadaten{
-		Name:        "zabbix_testname",
-		Namespace:   "zabbix_test_namespace",
-		Annotations: "zabbix_test_annotation",
-	}
-
-	aid_secrets := secrets{
-		Type:      "Sensitive",
-		DataKey:   "certs: ",
-		DataValue: "viel base64",
-	}
-
-	zabbix_secrets := secrets{
-		Type:      "Opaque",
-		DataKey:   "vaults: ",
-		DataValue: "text",
-	}
-
-	schiff_konfigurationen := schiff_config{
-		[]metadaten{aid, zabbix},
-		[]secrets{aid_secrets, zabbix_secrets},
-	}
-
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice_struct.goyaml", schiff_konfigurationen)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_slice_struct.goyaml", eine_slice_aus_structs)
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
 func execute_struct_from_tpl() {
-	eine_struct := schiff{
-		Name:         "aid_test_1",
-		Namespace:    "aid_test_1_namespace",
-		Image:        "nginx",
-		ImageName:    "aid_nginx",
-		ImageVersion: "1.14.2",
+
+	eine_struct_aus_structs := struct {
+		Metadaten []metadaten
+		Secrets   []secrets
+	}{
+		[]metadaten{
+			{
+				Name:        "team-1-app",
+				Namespace:   "team-1",
+				Annotations: `kubernetes.io/service-account.name: "team-1-sa-name"`,
+			},
+			{
+				Name:        "team-2-app",
+				Namespace:   "team-2",
+				Annotations: `kubernetes.io/service-account.name: "team-2-sa-name"`,
+			},
+		},
+		[]secrets{
+			{Type: "Sensitive",
+				DataKey:   "random.cfg",
+				DataValue: "path/to/rome"},
+			{Type: "Opaque",
+				DataKey: "some.cfg",
+				DataValue: `| 
+				ein weiterer Multiline Text 
+				der irgendwelche zufaelligen 
+				Saetze enthaelt`},
+		},
 	}
 
-	err := tpl.ExecuteTemplate(os.Stdout, "tpl_struct_from_tpl.goyaml", eine_struct)
+	err := tpl.ExecuteTemplate(os.Stdout, "tpl_struct_from_tpl.goyaml", eine_struct_aus_structs)
 	if err != nil {
 		log.Fatalln(err)
 	}

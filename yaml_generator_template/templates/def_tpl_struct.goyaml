@@ -7,11 +7,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ $name }}
-  namespace: {{ $namespace }}
+  name: {{ template "formatter" $name }}
+  namespace: {{ template "formatter" $namespace }}
 spec:
   containers:
-  - name: {{ $image_name }}
+  - name: {{ template "formatter" $image_name }}
     image: {{ $image -}}:   {{- $image_version }}
     ports:
     - containerPort: 80
@@ -22,8 +22,7 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ $name }}
-  namespace: {{ $namespace }}
+  name: {{ template "formatter" $namespace }}
 {{- end }}
   
   

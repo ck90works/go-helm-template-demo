@@ -1,15 +1,11 @@
-{{ define "k8s_secret" }}
-{{- range $metadaten := .Metadaten }}
+{{- define "k8s_secret" }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ $metadaten.Name}}
-  namespace: {{ $metadaten.Namespace }}
-  annotations: {{ $metadaten.Annotations }}
-type: kubernetes.io/service-account-token
-type: Opaque
+  name: {{ .Name }}
+  namespace: {{ .Namespace }}
+  annotations: {{ .Annotations | nindent 4 }}
+type: {{ .Type }}
 data:
-  config.cfg: |
-    Mehrzeiliger Text an Daten
+  {{ .DataKey }}: {{ .DataValue }}
 {{- end }}
-{{end }}

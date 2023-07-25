@@ -2,10 +2,15 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: aid_namespace_test 
-  namespace: {{ trim . }}
+  name (ohne template): {{ . }}
+  name ( mit template): {{ template "formatter" . }}
+  annotations:
+    kubernetes.io/service-account.name: "{{ template "formatter" .  }}"
 type: kubernetes.io/service-account-token
 data:
-  token: {{ . }}
+  basic: |
+    [global]
+      input = "123"
+      output = "xyz"
 ---
 {{- end }}
